@@ -173,6 +173,10 @@ class Config(context: Context) : BaseConfig(context) {
         get() = prefs.getInt(DIALPAD_SIZE, 100)
         set(dialpadSize) = prefs.edit { putInt(DIALPAD_SIZE, dialpadSize) }
 
+    var dialpadShowGrid: Boolean
+        get() = prefs.getBoolean(DIALPAD_SHOW_GRID, false)
+        set(dialpadShowGrid) = prefs.edit { putBoolean(DIALPAD_SHOW_GRID, dialpadShowGrid) }
+
     var dialpadScale: Float
         get() = prefs.getFloat(DIALPAD_SCALE, 0.96F)
         set(dialpadScale) = prefs.edit { putFloat(DIALPAD_SCALE, dialpadScale) }

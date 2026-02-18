@@ -202,6 +202,17 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/settingsDialpadShowGridHolder"
+                        style="@style/SettingsHolderSwitchStyle">
+
+                        <com.goodwy.commons.views.MyMaterialSwitch
+                            android:id="@+id/settingsDialpadShowGrid"
+                            style="@style/SettingsSwitchStyle"
+                            android:text="@string/grid"
+                            app:switchPadding="@dimen/bigger_margin"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/settingsHideDialpadLettersHolder"
                         style="@style/SettingsHolderSwitchStyle">
 

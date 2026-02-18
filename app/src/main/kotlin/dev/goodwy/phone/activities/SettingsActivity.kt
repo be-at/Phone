@@ -3,7 +3,6 @@ package dev.goodwy.phone.activities
 import android.annotation.SuppressLint
 import android.content.Intent
 import android.content.res.ColorStateList
-import android.content.res.Configuration
 import android.net.Uri
 import android.os.Bundle
 import android.view.Menu
@@ -80,10 +79,8 @@ class SettingsActivity : SimpleActivity() {
         setContentView(binding.root)
         setupOptionsMenu()
 
-        binding.apply {
-//            setupEdgeToEdge(padBottomSystem = listOf(settingsNestedScrollview))
-            setupMaterialScrollListener(binding.settingsNestedScrollview, binding.settingsAppbar)
-        }
+//        setupEdgeToEdge(padBottomSystem = listOf(settingsNestedScrollview))
+        setupMaterialScrollListener(binding.settingsNestedScrollview, binding.settingsAppbar)
 
         val iapList: ArrayList<String> = arrayListOf(productIdX1, productIdX2, productIdX3)
         val subList: ArrayList<String> =
@@ -107,7 +104,6 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    @SuppressLint("MissingSuperCall")
     override fun onResume() {
         super.onResume()
         setupTopAppBar(binding.settingsAppbar, NavigationIcon.Arrow)
@@ -483,7 +479,7 @@ class SettingsActivity : SimpleActivity() {
         binding.settingsNavigationBarStyleLabel.text = formatWithDeprecatedBadge(R.string.tab_navigation)
         binding.settingsNavigationBarStyle.text = getNavigationBarStyleText()
         binding.settingsNavigationBarStyleHolder.setOnClickListener {
-            val top = formatWithDeprecatedBadge(R.string.top)
+            val top = formatWithDeprecatedBadge(R.string.top).toString()
             val items = arrayListOf(
                 RadioItem(0, top, icon = R.drawable.ic_tab_top),
                 RadioItem(1, getString(R.string.bottom), icon = R.drawable.ic_tab_bottom),
@@ -494,12 +490,18 @@ class SettingsActivity : SimpleActivity() {
                 config.bottomNavigationBar = it == 1
                 config.needRestart = true
                 binding.settingsNavigationBarStyle.text = getNavigationBarStyleText()
+
                 binding.settingsChangeColourTopBarHolder.beVisibleIf(config.bottomNavigationBar)
+                binding.settingsTopAppBarLabel.beVisibleIf(config.bottomNavigationBar)
+                binding.settingsTopAppBarHolder.beVisibleIf(config.bottomNavigationBar)
             }
         }
     }
 
     private fun setupShowSearchBar() = binding.apply {
+        binding.settingsTopAppBarLabel.beVisibleIf(config.bottomNavigationBar)
+        binding.settingsTopAppBarHolder.beVisibleIf(config.bottomNavigationBar)
+
         settingsShowSearchBar.isChecked = config.showSearchBar
         settingsShowSearchBarHolder.setOnClickListener {
             settingsShowSearchBar.toggle()
@@ -1590,7 +1592,7 @@ class SettingsActivity : SimpleActivity() {
                 RadioItem(SWIPE_ACTION_CALL, getString(R.string.call), icon = R.drawable.ic_phone_vector),
                 RadioItem(SWIPE_ACTION_MESSAGE, getString(R.string.send_sms), icon = R.drawable.ic_messages),
                 RadioItem(SWIPE_ACTION_OPEN, getString(R.string.view_contact_details), icon = R.drawable.ic_info),
-                RadioItem(SWIPE_ACTION_EDIT, getString(R.string.edit), icon = com.goodwy.commons.R.drawable.ic_edit_vector),
+                RadioItem(SWIPE_ACTION_EDIT, getString(R.string.edit_contact), icon = com.goodwy.commons.R.drawable.ic_edit_vector),
                 RadioItem(SWIPE_ACTION_NONE, getString(com.goodwy.commons.R.string.nothing)),
             )
 
@@ -1639,7 +1641,7 @@ class SettingsActivity : SimpleActivity() {
                 RadioItem(SWIPE_ACTION_CALL, getString(R.string.call), icon = R.drawable.ic_phone_vector),
                 RadioItem(SWIPE_ACTION_MESSAGE, getString(R.string.send_sms), icon = R.drawable.ic_messages),
                 RadioItem(SWIPE_ACTION_OPEN, getString(R.string.view_contact_details), icon = R.drawable.ic_info),
-                RadioItem(SWIPE_ACTION_EDIT, getString(R.string.edit), icon = com.goodwy.commons.R.drawable.ic_edit_vector),
+                RadioItem(SWIPE_ACTION_EDIT, getString(R.string.edit_contact), icon = com.goodwy.commons.R.drawable.ic_edit_vector),
                 RadioItem(SWIPE_ACTION_NONE, getString(com.goodwy.commons.R.string.nothing)),
             )
 
@@ -1849,7 +1851,6 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    @SuppressLint("SetTextI18n")
     private fun setupAbout() = binding.apply {
         val flavorName = BuildConfig.FLAVOR
         val storeDisplayName = when (flavorName) {
@@ -1942,7 +1943,7 @@ class SettingsActivity : SimpleActivity() {
         }
     }
 
-    private fun checkPro(collection: Boolean = true) =
-        if (collection) isOrWasThankYouInstalled(false) || isPro() || isCollection()
-        else isOrWasThankYouInstalled(false) || isPro()
+    private fun checkPro(collection: Boolean = false) =
+        if (collection) isPro() || isCollection()
+        else isPro()
 }

@@ -5,7 +5,6 @@ import android.content.Intent
 import android.content.res.ColorStateList
 import android.graphics.Color
 import android.graphics.Rect
-import android.provider.CallLog
 import android.provider.CallLog.Calls
 import android.util.AttributeSet
 import android.view.View
@@ -32,6 +31,7 @@ import com.goodwy.commons.extensions.normalizeString
 import com.goodwy.commons.extensions.underlineText
 import com.goodwy.commons.helpers.CONTACT_ID
 import com.goodwy.commons.helpers.ContactsHelper
+import com.goodwy.commons.helpers.FontHelper
 import com.goodwy.commons.helpers.IS_PRIVATE
 import com.goodwy.commons.helpers.MyContactsContentProvider
 import com.goodwy.commons.helpers.PERMISSION_READ_CALL_LOG
@@ -65,7 +65,6 @@ import dev.goodwy.phone.interfaces.RefreshItemsListener
 import dev.goodwy.phone.models.CallLogItem
 import dev.goodwy.phone.models.RecentCall
 import com.google.gson.Gson
-import dev.goodwy.phone.extensions.config
 import dev.goodwy.phone.helpers.DialpadT9
 import dev.goodwy.phone.helpers.LANGUAGE_SYSTEM
 import java.util.Locale
@@ -109,6 +108,9 @@ class RecentsFragment(
 
         updateFilterButton()
         binding.recentsFilters.apply {
+            val typeface = FontHelper.getTypeface(context)
+
+            allCalls.setTypeface(typeface)
             allCalls.setOnClickListener {
                 if (context.config.filterRecentCalls != 0) {
                     context.config.filterRecentCalls = 0
@@ -117,6 +119,7 @@ class RecentsFragment(
                 }
             }
 
+            missedCalls.setTypeface(typeface)
             missedCalls.setOnClickListener {
                 if (context.config.filterRecentCalls != Calls.MISSED_TYPE) {
                     context.config.filterRecentCalls = Calls.MISSED_TYPE
@@ -125,6 +128,7 @@ class RecentsFragment(
                 }
             }
 
+            incomingCalls.setTypeface(typeface)
             incomingCalls.setOnClickListener {
                 if (context.config.filterRecentCalls != Calls.INCOMING_TYPE) {
                     context.config.filterRecentCalls = Calls.INCOMING_TYPE
@@ -133,6 +137,7 @@ class RecentsFragment(
                 }
             }
 
+            outgoingCalls.setTypeface(typeface)
             outgoingCalls.setOnClickListener {
                 if (context.config.filterRecentCalls != Calls.OUTGOING_TYPE) {
                     context.config.filterRecentCalls = Calls.OUTGOING_TYPE
@@ -141,6 +146,7 @@ class RecentsFragment(
                 }
             }
 
+            rejectedCalls.setTypeface(typeface)
             rejectedCalls.setOnClickListener {
                 if (context.config.filterRecentCalls != Calls.REJECTED_TYPE) {
                     context.config.filterRecentCalls = Calls.REJECTED_TYPE

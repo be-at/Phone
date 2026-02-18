@@ -7,6 +7,7 @@ import android.graphics.Typeface
 import android.os.Bundle
 import android.os.Handler
 import android.os.Looper
+import android.telephony.PhoneNumberFormattingTextWatcher
 import android.util.Log
 import android.util.TypedValue
 import android.view.View
@@ -33,6 +34,7 @@ import dev.goodwy.phone.models.SpeedDial
 import com.google.gson.Gson
 import com.mikhaellopez.rxanimation.RxAnimation
 import com.mikhaellopez.rxanimation.shake
+import me.grantland.widget.AutofitHelper
 import java.io.InputStreamReader
 import java.util.*
 import kotlin.math.abs
@@ -157,8 +159,9 @@ class SettingsDialpadActivity : SimpleActivity() {
         setupPurchaseThankYou()
 
 //        setupDialpadStyle()
-        setupButtonsColorList()
         setupPrimarySimCard()
+        setupButtonsColorList()
+        setupDialpadShowGrid()
         setupHideDialpadLetters()
         setupShowVoicemailIcon()
         setupDialpadSecondaryLanguage()
@@ -239,16 +242,19 @@ class SettingsDialpadActivity : SimpleActivity() {
                     it.beGone()
                 }
             } else {
+                val typeface = FontHelper.getTypeface(this@SettingsDialpadActivity)
+
                 dialpad1Letters.apply {
                     beInvisible()
-                    setTypeface(null, config.dialpadSecondaryTypeface)
+                    setTypeface(typeface, config.dialpadSecondaryTypeface)
                 }
+
                 arrayOf(
                     dialpad2Letters, dialpad3Letters, dialpad4Letters, dialpad5Letters,
                     dialpad6Letters, dialpad7Letters, dialpad8Letters, dialpad9Letters
                 ).forEach {
                     it.beVisible()
-                    it.setTypeface(null, config.dialpadSecondaryTypeface)
+                    it.setTypeface(typeface, config.dialpadSecondaryTypeface)
                 }
 
 
@@ -299,6 +305,13 @@ class SettingsDialpadActivity : SimpleActivity() {
                 }
             }
 
+            arrayOf(
+                dividerHorizontalZero, dividerHorizontalOne, dividerHorizontalTwo, dividerHorizontalThree,
+                dividerHorizontalFour, dividerVerticalOne, dividerVerticalTwo, dividerVerticalStart, dividerVerticalEnd
+            ).forEach {
+                it.beInvisibleIf(!config.dialpadShowGrid)
+            }
+
             if (areMultipleSIMsAvailable) {
                 dialpadHide.applyColorFilter(getProperTextColor)
                 dialpadChangeSim.apply {
@@ -324,6 +337,11 @@ class SettingsDialpadActivity : SimpleActivity() {
             dialpadClearCharX.applyColorFilter(getProperTextColor)
 
             dialpadMenu.applyColorFilter(getProperTextColor)
+
+            dialpadInput.apply {
+                beGone()
+                disableKeyboard()
+            }
         }
     }
 
@@ -671,7 +689,7 @@ class SettingsDialpadActivity : SimpleActivity() {
         binding.dialpadWrapper.root.beGone()
     }
 
-    private fun setupDialpadStyle() {
+//    private fun setupDialpadStyle() {
 //        val pro = checkPro()
 //        val iOS = addLockedLabelIfNeeded(R.string.ios_g, pro)
 //        binding.settingsDialpadStyle.text = getDialpadStyleText()
@@ -744,16 +762,16 @@ class SettingsDialpadActivity : SimpleActivity() {
 //            }
 //            }
 //        }
-    }
+//    }
 
-    private fun getDialpadStyleText() = getString(
-        when (config.dialpadStyle) {
-            DIALPAD_GRID -> R.string.grid
-            DIALPAD_IOS -> R.string.ios_g
-            DIALPAD_CONCEPT -> R.string.concept_theme_g
-            else -> R.string.clean_theme_g
-        }
-    )
+//    private fun getDialpadStyleText() = getString(
+//        when (config.dialpadStyle) {
+//            DIALPAD_GRID -> R.string.grid
+//            DIALPAD_IOS -> R.string.ios_g
+//            DIALPAD_CONCEPT -> R.string.concept_theme_g
+//            else -> R.string.clean_theme_g
+//        }
+//    )
 
     private fun setupButtonsColorList() {
         binding.apply {
@@ -948,6 +966,19 @@ class SettingsDialpadActivity : SimpleActivity() {
                 }
             }
         } else binding.settingsPrimarySimCardHolder.beGone()
+    }
+
+    private fun setupDialpadShowGrid() {
+        binding.apply {
+            settingsDialpadShowGrid.isChecked = config.dialpadShowGrid
+            settingsDialpadShowGridHolder.setOnClickListener {
+                settingsDialpadShowGrid.toggle()
+                config.dialpadShowGrid = settingsDialpadShowGrid.isChecked
+                config.needRestart = true
+                initStyle()
+                showDialpad()
+            }
+        }
     }
 
     private fun setupHideDialpadLetters() {
@@ -1186,7 +1217,7 @@ class SettingsDialpadActivity : SimpleActivity() {
 
     private fun updatePro(isPro: Boolean = checkPro()) {
         binding.apply {
-            dialpadPurchaseThankYouHolder.beGoneIf(isPro)
+            dialpadPurchaseThankYouHolder.beGoneIf(checkPro(false))
 
             arrayOf(
                 settingsSimCardColor1Holder,
@@ -1203,5 +1234,7 @@ class SettingsDialpadActivity : SimpleActivity() {
             .subscribe()
     }
 
-    private fun checkPro() = isOrWasThankYouInstalled(false) || isPro() || isCollection()
+    private fun checkPro(collection: Boolean = false) =
+        if (collection) isPro() || isCollection()
+        else isPro()
 }

@@ -27,6 +27,7 @@ const val HIDE_DIALPAD_LETTERS = "hide_dialpad_letters"
 const val BACKGROUND_CALL_SCREEN = "background_call_screen"
 const val DIALPAD_STYLE = "dialpad_style"
 const val DIALPAD_SIZE = "dialpad_size"
+const val DIALPAD_SHOW_GRID = "dialpad_show_grid"
 const val DIALPAD_SCALE = "dialpad_scale"
 const val DIALPAD_BOTTOM_MARGIN = "dialpad_bottom_margin"
 const val CALL_BUTTON_PRIMARY_SIZE = "call_button_primary_size"
@@ -190,5 +191,7 @@ fun whatsNewList(): ArrayList<Release> {
         add(Release(803, R.string.release_803))
         add(Release(810, R.string.release_810))
         add(Release(811, R.string.release_811))
+        add(Release(820, R.string.release_820))
+        add(Release(821, R.string.release_821))
     }
 }

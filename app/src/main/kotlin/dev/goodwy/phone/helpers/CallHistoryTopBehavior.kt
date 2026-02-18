@@ -98,17 +98,6 @@ class CallHistoryTopBehavior(
         )
     }
 
-//    private fun actionBarSize(context: Context?): Float {
-//        val styledAttributes = context!!.theme?.obtainStyledAttributes(IntArray(1) { android.R.attr.actionBarSize })
-//        val actionBarSize = styledAttributes?.getDimension(0, 0F)
-//        styledAttributes?.recycle()
-//        return actionBarSize ?: context.pixels(R.dimen.toolbar_height)
-//    }
-//
-//    private fun getScreenWidth(): Int {
-//        return Resources.getSystem().displayMetrics.widthPixels
-//    }
-
     companion object {
         const val GONE_VIEW_THRESHOLD = 0.4f
     }

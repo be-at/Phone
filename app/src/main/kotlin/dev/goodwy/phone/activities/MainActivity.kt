@@ -37,9 +37,9 @@ import android.view.ViewConfiguration
 import android.view.animation.AccelerateInterpolator
 import android.view.animation.DecelerateInterpolator
 import android.widget.ImageView
-import android.widget.PopupMenu
 import android.widget.TextView
 import android.widget.Toast
+import androidx.appcompat.widget.PopupMenu
 import androidx.appcompat.content.res.AppCompatResources
 import androidx.core.view.get
 import androidx.core.view.isVisible
@@ -124,8 +124,7 @@ class MainActivity : SimpleActivity() {
         setContentView(binding.root)
         appLaunched(BuildConfig.APPLICATION_ID)
 
-        val showTabs = config.showTabs
-        val oneTabs: Boolean = showTabs and TAB_FAVORITES == 0 && showTabs and TAB_CONTACTS == 0
+        val oneTabs: Boolean = getAllFragments().size == 1
         setupEdgeToEdge(
             padBottomImeAndSystem = listOf(binding.mainTabsHolder),
             moveBottomSystem = if (oneTabs) listOf(binding.mainDialpadButton) else emptyList()
@@ -284,7 +283,7 @@ class MainActivity : SimpleActivity() {
         updateState()
         checkShortcuts()
         checkErrorDialog()
-        newAppRecommendation()
+//        newAppRecommendation()
     }
 
     override fun onPause() {
@@ -535,7 +534,8 @@ class MainActivity : SimpleActivity() {
                                 }
 
                                 if (number != null) {
-                                    this.handlePermission(PERMISSION_CALL_PHONE) { hasPermission ->
+                                    val hasPermission = hasPermission(PERMISSION_CALL_PHONE)
+//                                    this.handlePermission(PERMISSION_CALL_PHONE) { hasPermission ->
                                         val action = if (hasPermission) Intent.ACTION_CALL else Intent.ACTION_DIAL
                                         val intent = Intent(action).apply {
                                             data = Uri.fromParts("tel", number, null)
@@ -548,7 +548,7 @@ class MainActivity : SimpleActivity() {
                                             .setIntent(intent)
                                             .build()
                                         this.shortcutManager.pushDynamicShortcut(shortcut)
-                                    }
+//                                    }
                                 }
                             }
                         }
@@ -1011,7 +1011,9 @@ class MainActivity : SimpleActivity() {
                 "An error occurred while the application was running. Please send us this error so we can fix it.",
                 positive = R.string.send_email
             ) {
-                val body = "Dialer : LastError"
+                val appName = getString(R.string.app_name_g)
+                val versionName = BuildConfig.VERSION_NAME
+                val body = "$appName($versionName) : LastError"
                 val address = getMyMailString()
                 val lastError = baseConfig.lastError
 
@@ -1109,25 +1111,21 @@ class MainActivity : SimpleActivity() {
             DialpadT9.readFromJson(reader.readText())
         }
 
-        val surfaceColor =
-            if (isDynamicTheme() && !isSystemInDarkMode()) getProperBackgroundColor() else getSurfaceColor()
+        val bottomBarColor =
+            if (isDynamicTheme() && !isSystemInDarkMode()) getColoredMaterialStatusBarColor()
+            else getSurfaceColor()
 
-        binding.dialpadWrapper.dialpadBottomMargin.setBackgroundColor(surfaceColor)
-        binding.dialpadWrapper.dialpadInputHolder.setBackgroundColor(surfaceColor)
+        binding.dialpadWrapper.dialpadBottomMargin.setBackgroundColor(bottomBarColor)
+        binding.dialpadWrapper.dialpadInputHolder.setBackgroundColor(bottomBarColor)
         binding.dialpadWrapper.apply {
             dialpadVoicemail.beVisibleIf(config.showVoicemailIcon && !config.hideDialpadLetters)
-            dialpadHolder.setBackgroundColor(surfaceColor)
+            dialpadHolder.setBackgroundColor(bottomBarColor)
 
             if (isPiePlus()) {
                 val textColor = getProperTextColor()
                 dialpadHolder.outlineAmbientShadowColor = textColor
                 dialpadHolder.outlineSpotShadowColor = textColor
             }
-
-//            dialpadBottomMargin.apply {
-//                setBackgroundColor(surfaceColor)
-//                setHeight(100)
-//            }
         }
         initLetters()
     }
@@ -1146,16 +1144,19 @@ class MainActivity : SimpleActivity() {
                     it.beGone()
                 }
             } else {
+                val typeface = FontHelper.getTypeface(this@MainActivity)
+
                 dialpad1Letters.apply {
                     beInvisible()
-                    setTypeface(null, config.dialpadSecondaryTypeface)
+                    setTypeface(typeface, config.dialpadSecondaryTypeface)
                 }
+
                 arrayOf(
                     dialpad2Letters, dialpad3Letters, dialpad4Letters, dialpad5Letters,
                     dialpad6Letters, dialpad7Letters, dialpad8Letters, dialpad9Letters
                 ).forEach {
                     it.beVisible()
-                    it.setTypeface(null, config.dialpadSecondaryTypeface)
+                    it.setTypeface(typeface, config.dialpadSecondaryTypeface)
                 }
 
                 val langPref = config.dialpadSecondaryLanguage
@@ -1189,6 +1190,13 @@ class MainActivity : SimpleActivity() {
                         it.setTextSize(TypedValue.COMPLEX_UNIT_PX, fontSize)
                     }
                 }
+            }
+
+            arrayOf(
+                dividerHorizontalZero, dividerHorizontalOne, dividerHorizontalTwo, dividerHorizontalThree,
+                dividerHorizontalFour, dividerVerticalOne, dividerVerticalTwo, dividerVerticalStart, dividerVerticalEnd
+            ).forEach {
+                it.beInvisibleIf(!config.dialpadShowGrid)
             }
 
             if (areMultipleSIMsAvailable) {

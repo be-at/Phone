@@ -9,7 +9,6 @@ import com.goodwy.commons.helpers.*
 import com.goodwy.commons.models.contacts.Contact
 import com.goodwy.commons.views.MyGridLayoutManager
 import com.goodwy.commons.views.MyLinearLayoutManager
-import dev.goodwy.phone.BuildConfig
 import dev.goodwy.phone.R
 import dev.goodwy.phone.activities.MainActivity
 import dev.goodwy.phone.activities.SimpleActivity
