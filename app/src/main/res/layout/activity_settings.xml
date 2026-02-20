@@ -2,7 +2,6 @@
 <androidx.coordinatorlayout.widget.CoordinatorLayout xmlns:android="http://schemas.android.com/apk/res/android"
     xmlns:app="http://schemas.android.com/apk/res-auto"
     xmlns:tools="http://schemas.android.com/tools"
-    android:id="@+id/settings_coordinator"
     android:layout_width="match_parent"
     android:layout_height="match_parent">
 
@@ -55,7 +54,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settings_color_customization_wrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -65,7 +63,6 @@
                         style="@style/SettingsHolderStyle">
 
                         <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settings_customize_colors_label"
                             style="@style/SettingsTextLabelStyle"
                             android:layout_marginEnd="68dp"
                             android:text="@string/customize_colors"/>
@@ -83,7 +80,6 @@
                         style="@style/SettingsHolderStyle">
 
                         <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settingsOverflowIconLabel"
                             style="@style/SettingsTextLabelStyle"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -108,7 +104,6 @@
                         style="@style/SettingsHolderStyle">
 
                         <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settingsFloatingButtonStyleLabel"
                             style="@style/SettingsTextLabelStyle"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -145,7 +140,6 @@
                         android:paddingEnd="@dimen/medium_margin">
 
                         <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settings_contact_color_list_label"
                             style="@style/SettingsTextLabelStyle"
                             android:layout_alignParentStart="true"
                             android:layout_centerVertical="true"
@@ -251,7 +245,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsGeneralWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -261,7 +254,6 @@
                         style="@style/SettingsHolderStyle">
 
                         <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settingsManageBlockedNumbers"
                             style="@style/SettingsTextLabelStyle"
                             android:layout_centerVertical="true"
                             android:layout_alignParentStart="true"
@@ -441,7 +433,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsTabsWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -584,7 +575,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsSwipeGesturesWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -788,7 +778,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsDialpadWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -870,7 +859,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsNotificationsWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -901,7 +889,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsCallsWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -938,40 +925,78 @@
                             app:switchPadding="@dimen/bigger_margin"/>
                     </RelativeLayout>
 
-                    <androidx.constraintlayout.widget.ConstraintLayout
+                    <RelativeLayout
                         android:id="@+id/settingsAnswerStyleHolder"
                         style="@style/SettingsHolderStyle">
 
-                        <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settings_answer_style_label"
-                            style="@style/SettingsTextLabelStyle"
-                            android:text="@string/answer_style"
-                            android:layout_marginEnd="@dimen/settings_value_width"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintBottom_toTopOf="@+id/settings_answer_style_summary"
-                            app:layout_constraintStart_toStartOf="parent"/>
+                        <RelativeLayout
+                            android:id="@+id/settingsAnswerStyleWrapper"
+                            android:layout_width="match_parent"
+                            android:layout_height="wrap_content"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/settings_answer_style">
 
-                        <com.goodwy.commons.views.MyTextView
-                            android:id="@+id/settings_answer_style_summary"
-                            style="@style/SettingsTextSummaryStyle"
-                            android:layout_width="0dp"
-                            android:clickable="false"
-                            android:text="@string/slider_style_summary"
-                            android:layout_marginEnd="@dimen/settings_value_width"
-                            android:visibility="visible"
-                            app:layout_constraintTop_toBottomOf="@+id/settings_answer_style_label"
-                            app:layout_constraintStart_toStartOf="@+id/settings_answer_style_label"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
+                            <com.goodwy.commons.views.MyTextView
+                                android:id="@+id/settings_answer_style_label"
+                                style="@style/SettingsTextLabelStyle"
+                                android:layout_alignParentTop="true"
+                                android:layout_alignParentStart="true"
+                                android:text="@string/answer_style"/>
+
+                            <com.goodwy.commons.views.MyTextView
+                                android:id="@+id/settings_answer_style_summary"
+                                style="@style/SettingsTextSummaryStyle"
+                                android:clickable="false"
+                                android:text="@string/slider_style_summary"
+                                android:layout_below="@+id/settings_answer_style_label"
+                                android:visibility="visible"/>
+                        </RelativeLayout>
 
                         <com.goodwy.commons.views.MyTextView
                             android:id="@+id/settings_answer_style"
                             style="@style/SettingsTextValueStyle"
+                            android:layout_alignParentEnd="true"
                             android:layout_marginEnd="@dimen/settings_margin"
-                            tools:text="@string/auto_theme"
-                            app:layout_constraintTop_toTopOf="parent"
-                            app:layout_constraintEnd_toEndOf="parent"
-                            app:layout_constraintBottom_toBottomOf="parent"/>
-                    </androidx.constraintlayout.widget.ConstraintLayout>
+                            tools:text="@string/auto_theme"/>
+                    </RelativeLayout>
+
+<!--                    <androidx.constraintlayout.widget.ConstraintLayout-->
+<!--                        android:id="@+id/settingsAnswerStyleHolder"-->
+<!--                        style="@style/SettingsHolderStyle">-->
+
+<!--                        <com.goodwy.commons.views.MyTextView-->
+<!--                            android:id="@+id/settings_answer_style_label"-->
+<!--                            style="@style/SettingsTextLabelStyle"-->
+<!--                            android:text="@string/answer_style"-->
+<!--                            android:layout_marginEnd="@dimen/settings_value_width"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintBottom_toTopOf="@+id/settings_answer_style_summary"-->
+<!--                            app:layout_constraintStart_toStartOf="parent"/>-->
+
+<!--                        <com.goodwy.commons.views.MyTextView-->
+<!--                            android:id="@+id/settings_answer_style_summary"-->
+<!--                            style="@style/SettingsTextSummaryStyle"-->
+<!--                            android:layout_width="0dp"-->
+<!--                            android:clickable="false"-->
+<!--                            android:text="@string/slider_style_summary"-->
+<!--                            android:layout_marginEnd="@dimen/settings_value_width"-->
+<!--                            android:visibility="visible"-->
+<!--                            app:layout_constraintTop_toBottomOf="@+id/settings_answer_style_label"-->
+<!--                            app:layout_constraintStart_toStartOf="@+id/settings_answer_style_label"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"/>-->
+
+<!--                        <com.goodwy.commons.views.MyTextView-->
+<!--                            android:id="@+id/settings_answer_style"-->
+<!--                            style="@style/SettingsTextValueStyle"-->
+<!--                            android:layout_marginEnd="@dimen/settings_margin"-->
+<!--                            tools:text="@string/auto_theme"-->
+<!--                            app:layout_constraintTop_toTopOf="parent"-->
+<!--                            app:layout_constraintEnd_toEndOf="parent"-->
+<!--                            app:layout_constraintBottom_toBottomOf="parent"/>-->
+<!--                    </androidx.constraintlayout.widget.ConstraintLayout>-->
 
                     <RelativeLayout
                         android:id="@+id/settings_slider_style_holder"
@@ -1325,7 +1350,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsTopAppBarWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1367,7 +1391,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsListViewWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1481,6 +1504,26 @@
                     </RelativeLayout>
 
                     <RelativeLayout
+                        android:id="@+id/settingsEllipsizeModeHolder"
+                        style="@style/SettingsHolderStyle">
+
+                        <com.goodwy.commons.views.MyTextView
+                            android:id="@+id/settingsEllipsizeModeLabel"
+                            style="@style/SettingsTextLabelStyle"
+                            android:layout_alignParentStart="true"
+                            android:layout_centerVertical="true"
+                            android:layout_toStartOf="@+id/settingsEllipsizeMode"
+                            android:text="@string/long_text_behavior"/>
+
+                        <com.goodwy.commons.views.MyTextView
+                            android:id="@+id/settingsEllipsizeMode"
+                            style="@style/SettingsTextValueStyle"
+                            android:layout_alignParentEnd="true"
+                            android:layout_marginEnd="@dimen/settings_margin"
+                            tools:text="@string/cut_off"/>
+                    </RelativeLayout>
+
+                    <RelativeLayout
                         android:id="@+id/settings_show_phone_numbers_holder"
                         style="@style/SettingsHolderSwitchStyle">
 
@@ -1539,7 +1582,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsSecurityWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1594,7 +1636,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsBackupsWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
@@ -1653,7 +1694,6 @@
                 app:cardElevation="0dp">
 
                 <LinearLayout
-                    android:id="@+id/settingsOtherWrapper"
                     android:layout_width="wrap_content"
                     android:layout_height="wrap_content"
                     android:orientation="vertical">
